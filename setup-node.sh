@@ -28,7 +28,7 @@ sudo docker network create -d bridge --subnet=172.20.0.0/16 brnkc || true
 
 # 6. 啟動 Docker 容器
 echo "啟動 Docker 容器..."
-sudo docker run -d -it --restart unless-stopped --name backup-node --network brnkc --ip 172.20.0.5 -v /home/backup-node:/node -p 8545:8545 -p 30303:30303 -p 55555:55555 --entrypoint /bin/sh bearnetworkchain/brnkc-node:v1.13.15
+sudo docker run -d -it --restart unless-stopped --name backup-node --network brnkc --ip 172.20.0.5 -v /home/backup-node:/node -p 8545:8545 -p 30303:30303 -p 55555:55555 --entrypoint /bin/sh -c "cd /node && geth --datadir brnkc01 init genesis.json && geth --config config.toml --identity \"bearnetwork\" --datadir brnkc01 --http --http.addr 172.20.0.5 --port 30303 --http.corsdomain \"*\" --http.port 8545 --networkid 641230 --nat any --http.api debug,web3,eth,txpool,personal,clique,miner,net --ws --ws.port 55555 --ws.addr 172.20.0.5 --ws.origins \"*\" --ws.api web3,eth --syncmode full --gcmode=archive --nodiscover --http.vhosts=\"*\" --allow-insecure-unlock console bearnetworkchain/brnkc-node:v1.13.15
 
 
 echo "自動流程部份完成，請繼續手動使用佈署創世文件及啟動指令！"
