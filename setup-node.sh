@@ -18,8 +18,7 @@ sudo docker network create -d bridge --subnet=172.20.0.0/16 brnkc || true
 
 # 5. 拉取映像並創建容器
 sudo docker run -dit --restart unless-stopped --name backup-node --network brnkc --ip 172.20.0.5 \
-  -v /home/backup-node:/node -p 8545:8545 -p 30303:30303 -p 55555:55555 \
-  bearnetworkchain/brnkc-node:v1.13.15 bash
+  -v /home/backup-node:/node -p 8545:8545 -p 30303:30303 -p 55555:55555 --entrypoint /bin/sh bearnetworkchain/brnkc-node:v1.13.15
 
 # 6. 進入容器並初始化 Geth
 sudo docker exec backup-node geth --datadir /node/brnkc01 init /node/genesis.json
