@@ -37,7 +37,7 @@ sudo docker run -d -it --restart unless-stopped \
   -p 30303:30303 \
   -p 55555:55555 \
   bearnetworkchain/brnkc-node:v1.13.15 \
-  sh -c "sleep 5 && tail -f /dev/null"
+  bin/sh -c "sleep 5 && tail -f /dev/null"
 
 # 7. **等待容器啟動**
 echo "等待容器啟動..."
