@@ -30,10 +30,6 @@ sudo docker run -dit --restart unless-stopped \
   bearnetworkchain/brnkc-node:v1.13.15 \
   --datadir /node/brnkc01 init /node/genesis.json
 
-# 6. 重新啟動容器以啟動 Geth
-sudo docker stop backup-node
-sudo docker rm backup-node
-
 sudo docker run -dit --restart unless-stopped \
   --name backup-node \
   --network brnkc \
