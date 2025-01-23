@@ -32,7 +32,7 @@ sudo docker run -dit --restart unless-stopped \
   --name backup-node \
   --network brnkc \
   --ip 172.20.0.5 \
-  -v /home/brnkc/backup-node:/node \
+  -v /home/backup-node:/node \
   -p 8545:8545 \
   -p 30303:30303 \
   -p 55555:55555 \
