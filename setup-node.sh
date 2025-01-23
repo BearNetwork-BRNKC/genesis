@@ -7,16 +7,22 @@ sudo mkdir -p /home/backup-node/brnkc01 && sudo chmod -R 777 /home/backup-node
 wget -q https://raw.githubusercontent.com/BearNetwork-BRNKC/genesis/main/genesis.json -O /home/backup-node/genesis.json
 wget -q https://raw.githubusercontent.com/BearNetwork-BRNKC/genesis/main/config.toml -O /home/backup-node/config.toml
 
-# 3. 設置防火牆端口
+# 3. 確保下載成功
+if [ ! -f "/home/backup-node/genesis.json" ] || [ ! -f "/home/backup-node/config.toml" ]; then
+  echo "下載 genesis.json 或 config.toml 失敗！"
+  exit 1
+fi
+
+# 4. 設置防火牆端口
 sudo ufw allow 8545/tcp
 sudo ufw allow 30303/tcp
 sudo ufw allow 55555/tcp
 sudo ufw --force enable
 
-# 4. 創建 Docker 網路（如果已存在則忽略錯誤）
+# 5. 創建 Docker 網路（如果已存在則忽略錯誤）
 sudo docker network create -d bridge --subnet=172.20.0.0/16 brnkc || true
 
-# 5. 拉取映像並創建容器（不執行 Geth，只用來初始化）
+# 6. 初始化 Geth（確保 /node 目錄內運行）
 sudo docker run --rm \
   --name backup-node-init \
   --network brnkc \
@@ -26,7 +32,7 @@ sudo docker run --rm \
   bearnetworkchain/brnkc-node:v1.13.15 \
   geth --datadir /node/brnkc01 init /node/genesis.json
 
-# 6. 創建並啟動 Geth 節點
+# 8. 啟動 Geth 節點
 sudo docker run -dit --restart unless-stopped \
   --name backup-node \
   --network brnkc \
@@ -36,7 +42,6 @@ sudo docker run -dit --restart unless-stopped \
   -p 30303:30303 \
   -p 55555:55555 \
   --workdir /node \
-  --entrypoint geth \
   bearnetworkchain/brnkc-node:v1.13.15 \
   --config /node/config.toml \
   --identity "bearnetwork" \
