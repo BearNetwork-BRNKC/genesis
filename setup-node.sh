@@ -38,7 +38,8 @@ sudo docker run -d -it --restart unless-stopped \
   -p 55555:55555 \
   --entrypoint /bin/sh \
   bearnetworkchain/brnkc-node:v1.13.15 \
-  -c "cd /node && geth --datadir brnkc01 init genesis.json && geth --config config.toml --identity \"bearnetwork\" --datadir brnkc01 --http --http.addr 172.20.0.5 --port 30303 --http.corsdomain \"*\" --http.port 8545 --networkid 641230 --nat any --http.api debug,web3,eth,txpool,personal,clique,miner,net --ws --ws.port 55555 --ws.addr 172.20.0.5 --ws.origins \"*\" --ws.api web3,eth --syncmode full --gcmode=archive --nodiscover --http.vhosts=\"*\" --allow-insecure-unlock console"
+  -c 'cd /node && geth --datadir brnkc01 init genesis.json && geth --config config.toml --identity "bearnetwork" --datadir brnkc01 --http --http.addr 172.20.0.5 --port 30303 --http.corsdomain "*" --http.port 8545 --networkid 641230 --nat any --http.api debug,web3,eth,txpool,personal,clique,miner,net --ws --ws.port 55555 --ws.addr 172.20.0.5 --ws.origins "*" --ws.api web3,eth --syncmode full --gcmode=archive --nodiscover --http.vhosts="*" --allow-insecure-unlock console'
+
 
 
 
